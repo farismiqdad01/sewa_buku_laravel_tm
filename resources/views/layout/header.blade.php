@@ -1,1 +1,1 @@
-<h2>WEBSITE SEWA BUKU</h2>
+<h2 align="center">WEBSITE SEWA BUKU</h2>
