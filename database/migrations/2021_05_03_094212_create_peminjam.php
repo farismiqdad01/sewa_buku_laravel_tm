@@ -19,7 +19,7 @@ class CreatePeminjam extends Migration
             $table->string('nama_peminjam');
             $table->date('tgl_lahir');
             $table->string('alamat');
-            $table->bigInteger('id_jenis_peminjam')->unsigned();
+            $table->integer('id_jenis_peminjam')->unsigned();
             $table->foreign('id_jenis_peminjam')
             ->references('id')->on('jenis_peminjam')
             ->onDelete('cascade');

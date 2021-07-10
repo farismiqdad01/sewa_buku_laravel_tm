@@ -14,16 +14,14 @@ class CreateTelepon extends Migration
     public function up()
     {
         Schema::create('telepon', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('id_peminjam')->unsigned();
+            $table->id('id_peminjam')->unsigned()->primary('id_peminjam');
             $table->string('nomor_telepon');
             $table->timestamps();
 
             $table->foreign('id_peminjam')
-                    ->references('id')
-                    ->on('peminjam')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                  ->references('id')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
     }
 

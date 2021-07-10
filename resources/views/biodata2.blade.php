@@ -1,3 +1,3 @@
 <?php
-    echo 'Nama : Bahtyar <br> Prodi : Teknik Informatika <br> Hobi : Makan';
+    echo 'Nama : Naufal <br> Prodi : Teknik Informatika <br> Hobi : Badminton';
 ?>

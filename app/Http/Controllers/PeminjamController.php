@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Peminjam;
+use App\Models\Peminjam;
 
-use App\Telepon;
+use App\Models\Telepon;
 
-use App\JenisPeminjam;
+use App\Models\JenisPeminjam;
 
 class PeminjamController extends Controller
 {
@@ -24,11 +24,11 @@ class PeminjamController extends Controller
     public function index(){
         $data_peminjam = Peminjam::all()->sortBy('nama_peminjam');
         $jumlah_peminjam = $data_peminjam->count();
-        return view('peminjams.index', compact('data_peminjam', 'jumlah_peminjam'));
+        return view('peminjams.index', compact('data_peminjam','jumlah_peminjam'));
     }
 
     public function create(){
-        $list_jenis_peminjam = JenisPeminjam::pluck('nama_jenis_peminjam', 'id');
+        $list_jenis_peminjam = JenisPeminjam::pluck('nama_jenis_peminjam','id_jenis_peminjam');
         return view('peminjams.create', compact('list_jenis_peminjam'));
     }
 
@@ -40,14 +40,11 @@ class PeminjamController extends Controller
         $peminjam->alamat = $request->alamat;
         $peminjam->id_jenis_peminjam= $request->id_jenis_peminjam;
         $peminjam->save();
-       
+
         $telepon = new Telepon;
         $telepon->nomor_telepon = $request->telepon;
         $peminjam->telepon()->save($telepon);
-        if($peminjam && $telepon){
-            return redirect('peminjam');
-        }
-        
+        return redirect('peminjam');
     }
 
     public function edit($id){
@@ -55,8 +52,8 @@ class PeminjamController extends Controller
         if(!empty($peminjam->telepon->nomor_telepon)){
             $peminjam->nomor_telepon = $peminjam->telepon->nomor_telepon;
         }
-        $list_jenis_peminjam = JenisPeminjam::pluck('nama_jenis_peminjam', 'id');
-        return view('peminjams.edit', compact('peminjam', 'list_jenis_peminjam'));
+        $list_jenis_peminjam = JenisPeminjam::pluck('nama_jenis_peminjam','id_jenis_peminjam');
+        return view('peminjams.edit', compact('peminjam','list_jenis_peminjam'));
     }
 
     public function update(Request $request, $id){
@@ -65,9 +62,8 @@ class PeminjamController extends Controller
         $peminjam->nama_peminjam = $request->nama_peminjam;
         $peminjam->tgl_lahir = $request->tgl_lahir;
         $peminjam->alamat = $request->alamat;
-        $peminjam->id_jenis_peminjam = $request->id_jenis_peminjam;
+        $peminjam->id_jenis_peminjam= $request->id_jenis_peminjam;
         $peminjam->update();
-        $teleponUpdate = Telepon::where('id_peminjam', '=', $id) ->update(['nomor_telepon'=>$request->nomor_telepon]);
 
         //update nomor telepon, jika sebelumnya sudah ada nomor telepon
         if($peminjam->telepon){
@@ -94,7 +90,9 @@ class PeminjamController extends Controller
 
     public function destroy($id){
         $peminjam = Peminjam::find($id);
+        $telepon = Telepon::find($id);
         $peminjam->delete();
+        $telepon->delete();
         return redirect('peminjam');
     }
 
@@ -124,7 +122,7 @@ class PeminjamController extends Controller
     public function collection_count(){
         $collection = Peminjam::all();
         $jumlah = $collection->count();
-        return 'Jumlah Peminjam : '.$jumlah;
+        return 'Jumlah peminjam : '.$jumlah;
     }
 
     public function collection_take(){
@@ -138,18 +136,18 @@ class PeminjamController extends Controller
     }
 
     public function collection_where(){
-        $collection = Peminjam::all()->where('kode_peminjam', 'P0003');
+        $collection = Peminjam::all()->where('kode_peminjam', 'P0004');
         return $collection;
     }
 
     public function collection_wherein(){
-        $collection = Peminjam::all()->wherein('kode_peminjam', ['P0002', 'P0003', 'P0001']);
+        $collection = Peminjam::all()->whereIn('kode_peminjam', ['P0004', 'P0002', 'P0003']);
         return $collection;
     }
 
     public function collection_toarray(){
         $collection = Peminjam::select('kode_peminjam', 'nama_peminjam')->take(4)->get();
-        $koleksi = $collection->toarray();
+        $koleksi = $collection->toArray();
         foreach($koleksi as $peminjam){
             echo $peminjam['kode_peminjam'].' - '.$peminjam['nama_peminjam'].'<br>';
         }
@@ -162,7 +160,7 @@ class PeminjamController extends Controller
             ['kode_peminjam'=> 'P0003', 'nama_peminjam' => 'Zainal'],
             ['kode_peminjam'=> 'P0004', 'nama_peminjam' => 'Lupita'],
         ];
-        $collection = collect($data)->tojson();
+        $collection = collect($data)->toJson();
         return $collection;
     }
 }

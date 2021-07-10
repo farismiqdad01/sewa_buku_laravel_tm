@@ -28,12 +28,12 @@
                     <td>{{ !empty($peminjam->telepon['nomor_telepon'])?
                             $peminjam->telepon['nomor_telepon'] : '-'}}
                     </td>
-                    <td>{{ $peminjam->jenis_peminjam[0]['nama_jenis_peminjam']}}</td>
+                    <td>{{ $peminjam->jenis_peminjam['nama_jenis_peminjam']}}</td>
                     <td><a href="{{ route('peminjam.edit', $peminjam->id) }}" class="btn btn-warning btn-sm">Edit</a></td>
                     <td>
                         <form method="post" action="{{ route('peminjam.destroy', $peminjam->id) }}">
                         @csrf
-                            <button class="btn btn-warning btn-sm" onClick="return confirm('Anda Yakin Ingin Menghapus Data Ini?')">Hapus</button>
+                            <button class="btn btn-warning btn-sm" onClick="return confirm('Anda Yakin ingin menghapus data ini?')">Hapus</button>
                         </form>
                     </td>
                 </tr>
@@ -47,5 +47,6 @@
                 Jumlah Peminjam : {{ $jumlah_peminjam}}
             </strong>
         </div>
+
     </div>
 @endsection

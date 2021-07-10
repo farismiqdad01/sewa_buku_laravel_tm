@@ -10,8 +10,7 @@
                 <input type="text" name="kode_peminjam" class="form-control" value="{{ $peminjam->kode_peminjam }}">
             </div>
             <div class="form-group">
-                <label>Nama Peminjam
-                </label>
+                <label>Nama Peminjam</label>
                 <input type="text" name="nama_peminjam" class="form-control" value="{{ $peminjam->nama_peminjam }}">
             </div>
             <div class="form-group">
@@ -31,7 +30,7 @@
                 <select class="form-control" name="id_jenis_peminjam">
                     <option>Pilih Jenis Peminjam</option>
                         @foreach ($list_jenis_peminjam as $key => $value)
-                        <option value="{{ $key }}" {{$peminjam->id_jenis_peminjam == $key ? 'select' : ''}}>
+                    <option value="{{ $key }}" {{$peminjam->id_jenis_peminjam == $key ? 'selected' : ''}}>
                         {{ $value }}
                     </option>
                         @endforeach

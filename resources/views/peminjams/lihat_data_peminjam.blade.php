@@ -2,14 +2,14 @@
 
 @section('content')
 <div id=peminjam>
-    <h3>Data Peminjam</h3>
+    <h2>Data Peminjam</h2>
         @if(!empty($peminjam))
         <ul>
             <?php foreach($peminjam as $data):?>
                 <li><?=$data ?></li>
             <?php endforeach ?>
         </ul>
-        @else
+        @else:
     <p>Data peminjam kosong.</p>
     @endif
 </div>
